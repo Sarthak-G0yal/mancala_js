@@ -1,4 +1,3 @@
-
 :root {
   --background-color: #ecf0f1;
   --text-color: #2c3e50;
@@ -8,10 +7,16 @@
   --store-bg: #ecf0f1;
   --store-border: #95a5a6;
   --stone-color: #2980b9;
-  --button-bg: #3498db;
-  --button-hover-bg: #2980b9;
-  --active-button-bg: #2ecc71;
-  --active-button-color: #fff;
+
+  --p1-color: #3498db;
+  --p1-hover-color: #2980b9;
+  --p1-highlight-color: #5dade2;
+  --p1-highlight-shadow: rgba(52, 152, 219, 0.8);
+
+  --p2-color: #e74c3c;
+  --p2-hover-color: #c0392b;
+  --p2-highlight-color: #f1948a;
+  --p2-highlight-shadow: rgba(231, 76, 60, 0.8);
 }
 
 body {

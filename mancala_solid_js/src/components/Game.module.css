@@ -1,9 +1,24 @@
+
 .game {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: sans-serif;
   padding: 20px;
+}
+
+.player1Turn {
+  --button-bg: var(--p1-color);
+  --button-hover-bg: var(--p1-hover-color);
+  --highlight-color: var(--p1-highlight-color);
+  --highlight-shadow: var(--p1-highlight-shadow);
+}
+
+.player2Turn {
+  --button-bg: var(--p2-color);
+  --button-hover-bg: var(--p2-hover-color);
+  --highlight-color: var(--p2-highlight-color);
+  --highlight-shadow: var(--p2-highlight-shadow);
 }
 
 .players {
@@ -29,7 +44,7 @@
   border: none;
   border-radius: 5px;
   background-color: var(--button-bg);
-  color: var(--text-color);
+  color: white;
   transition: background-color 0.3s;
 }
 

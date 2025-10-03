@@ -1,4 +1,3 @@
-
 import { createSignal, Show } from 'solid-js';
 import {
   prepareGame,
@@ -138,7 +137,7 @@ const Game = () => {
         <GameStartPopup onStartGame={startGame} />
       </Show>
       <Show when={gameMode() !== null}>
-        <div class={styles.game}>
+        <div class={`${styles.game} ${currentPlayer() === Player.PLAYER_1 ? styles.player1Turn : styles.player2Turn}`}>
           <Show when={isAnimating()}>
             <StonesToMove stones={stonesToMove()} />
           </Show>
