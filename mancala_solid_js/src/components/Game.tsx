@@ -1,5 +1,5 @@
 
-import { createSignal } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import {
   prepareGame,
   playTurn,
@@ -11,8 +11,8 @@ import { minimaxAB } from '../game/ai';
 import Board from './Board';
 import PlayerComponent from './Player';
 import Settings from './Settings';
-import GameMode, { GameModeEnum } from './GameMode';
 import WinnerPopup from './WinnerPopup';
+import GameStartPopup, { GameModeEnum } from './GameStartPopup';
 import styles from './Game.module.css';
 
 const Game = () => {
@@ -20,16 +20,14 @@ const Game = () => {
   const [gameState, setGameState] = createSignal(prepareGame(numberOfStones()));
   const [currentPlayer, setCurrentPlayer] = createSignal(Player.PLAYER_1);
   const [winner, setWinner] = createSignal<Prizes | null>(null);
-  const [gameMode, setGameMode] = createSignal<GameModeEnum>(
-    GameModeEnum.PVA
-  );
+  const [gameMode, setGameMode] = createSignal<GameModeEnum | null>(null);
 
   const handleSettingsChange = (stones: number) => {
     setNumberOfStones(stones);
     restartGame(stones);
   };
 
-  const handleGameModeChange = (mode: GameModeEnum) => {
+  const startGame = (mode: GameModeEnum) => {
     setGameMode(mode);
     restartGame(numberOfStones());
   };
@@ -99,33 +97,39 @@ const Game = () => {
   };
 
   return (
-    <div class={styles.game}>
-      <h1>Mancala</h1>
-      <GameMode onGameModeChange={handleGameModeChange} activeMode={gameMode()} />
-      <Settings onSettingsChange={handleSettingsChange} />
-      <div class={styles.players}>
-        <PlayerComponent
-          player={Player.PLAYER_1}
-          isCurrent={currentPlayer() === Player.PLAYER_1}
-        />
-        <PlayerComponent
-          player={Player.PLAYER_2}
-          isCurrent={currentPlayer() === Player.PLAYER_2}
-        />
-      </div>
-      <Board
-        gameState={gameState()}
-        onPitClick={handlePitClick}
-        currentPlayer={currentPlayer()}
-      />
-      {winner() !== null && (
-        <WinnerPopup 
-          winner={winner()} 
-          onRestart={() => restartGame(numberOfStones())} 
-          gameMode={gameMode()} 
-        />
-      )}
-    </div>
+    <>
+      <Show when={gameMode() === null}>
+        <GameStartPopup onStartGame={startGame} />
+      </Show>
+      <Show when={gameMode() !== null}>
+        <div class={styles.game}>
+          <h1>Mancala</h1>
+          <Settings onSettingsChange={handleSettingsChange} />
+          <div class={styles.players}>
+            <PlayerComponent
+              player={Player.PLAYER_1}
+              isCurrent={currentPlayer() === Player.PLAYER_1}
+            />
+            <PlayerComponent
+              player={Player.PLAYER_2}
+              isCurrent={currentPlayer() === Player.PLAYER_2}
+            />
+          </div>
+          <Board
+            gameState={gameState()}
+            onPitClick={handlePitClick}
+            currentPlayer={currentPlayer()}
+          />
+          {winner() !== null && (
+            <WinnerPopup 
+              winner={winner()} 
+              onRestart={() => restartGame(numberOfStones())} 
+              gameMode={gameMode()!}
+            />
+          )}
+        </div>
+      </Show>
+    </>
   );
 };
 

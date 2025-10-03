@@ -1,3 +1,4 @@
+
 import { For } from 'solid-js';
 import { NUM_PITS, Player, STORE_1_POS, STORE_2_POS } from '../game/types';
 import Pit from './Pit';
@@ -22,8 +23,8 @@ const Board = (props: BoardProps) => {
 
   return (
     <div class={styles.board}>
-      <div class={styles.player2Side}>
-        <Store stones={props.gameState[STORE_2_POS]} />
+      <Store stones={props.gameState[STORE_2_POS]} />
+      <div class={styles.pitsContainer}>
         <div class={styles.pits}>
           <For each={player2Pits().reverse()}>{
             (stones, index) => (
@@ -31,15 +32,13 @@ const Board = (props: BoardProps) => {
             )
           }</For>
         </div>
-      </div>
-      <div class={styles.player1Side}>
         <div class={styles.pits}>
           <For each={player1Pits()}>{ (stones, index) => (
             <Pit stones={stones} onClick={() => handlePitClick(Player.PLAYER_1, index())} />
           )}</For>
         </div>
-        <Store stones={props.gameState[STORE_1_POS]} />
       </div>
+      <Store stones={props.gameState[STORE_1_POS]} />
     </div>
   );
 };

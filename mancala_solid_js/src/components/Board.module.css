@@ -1,6 +1,7 @@
+
 .board {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   background-color: var(--board-bg);
   border: 10px solid var(--pit-border);
   border-radius: 20px;
@@ -8,9 +9,9 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.player1Side, .player2Side {
+.pitsContainer {
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 
 .pits {
