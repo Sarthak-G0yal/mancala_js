@@ -1,3 +1,4 @@
+
 // Game constants
 export const NUM_PITS = 6;
 export let NUMBER_OF_STONES = 4;
@@ -27,6 +28,11 @@ export type Prizes = (typeof Prizes)[keyof typeof Prizes];
 export interface MoveResult {
 	score: number;
 	bestPit: number; // which pit to play (1–NUM_PITS)
+}
+
+export interface TurnUpdate {
+    index: number;
+    stones: number;
 }
 
 export function setNumberOfStones(stones: number) {

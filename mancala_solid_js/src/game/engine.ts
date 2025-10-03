@@ -26,19 +26,23 @@ export function prepareGame(numberOfStones?: number): number[] {
 
 /**
  * Plays one turn for the given player.
- * @param gameState The current game state (mutated in place).
+ * @param initialGameState The current game state.
  * @param p The current player.
  * @param position The pit index (1–NUM_PITS).
- * @returns { playAgain: boolean, success: boolean }
+ * @returns { playAgain: boolean, success: boolean, states: number[][], focusedPits: number[] }
  */
 export function playTurn(
-	gameState: number[],
+	initialGameState: number[],
 	p: Player,
 	position: number,
-): { playAgain: boolean; success: boolean } {
+): { playAgain: boolean; success: boolean; states: number[][]; focusedPits: number[] } {
+    const states: number[][] = [];
+    const focusedPits: number[] = [];
+    let gameState = [...initialGameState];
+
 	// Position out of bounds
 	if (position < 1 || position > NUM_PITS) {
-		return { playAgain: false, success: false };
+		return { playAgain: false, success: false, states, focusedPits };
 	}
 
 	// Opponent’s store should be skipped
@@ -49,11 +53,13 @@ export function playTurn(
 
 	// Pit is empty → invalid move
 	if (tempCounter <= 0) {
-		return { playAgain: false, success: false };
+		return { playAgain: false, success: false, states, focusedPits };
 	}
 
 	// Empty the chosen pit
 	gameState[index] = 0;
+    states.push([...gameState]);
+    focusedPits.push(index);
 
 	// Distribute seeds
 	while (tempCounter-- > 0) {
@@ -62,6 +68,8 @@ export function playTurn(
 		if (index >= SLOTS) index %= SLOTS;
 
 		gameState[index] += 1;
+        states.push([...gameState]);
+        focusedPits.push(index);
 	}
 
 	// --- Special Rule 1: Capture ---
@@ -72,6 +80,10 @@ export function playTurn(
 				gameState[STORE_1_POS] += gameState[oppositeIndex] + 1;
 				gameState[index] = 0;
 				gameState[oppositeIndex] = 0;
+                states.push([...gameState]);
+                focusedPits.push(index);
+                focusedPits.push(oppositeIndex);
+                focusedPits.push(STORE_1_POS);
 			}
 		} else if (p === Player.PLAYER_2 && index > STORE_1_POS) {
 			const oppositeIndex = SLOTS - index - 2;
@@ -79,6 +91,10 @@ export function playTurn(
 				gameState[STORE_2_POS] += gameState[oppositeIndex] + 1;
 				gameState[index] = 0;
 				gameState[oppositeIndex] = 0;
+                states.push([...gameState]);
+                focusedPits.push(index);
+                focusedPits.push(oppositeIndex);
+                focusedPits.push(STORE_2_POS);
 			}
 		}
 	}
@@ -88,7 +104,7 @@ export function playTurn(
 		(p === Player.PLAYER_1 && index === STORE_1_POS) ||
 		(p === Player.PLAYER_2 && index === STORE_2_POS);
 
-	return { playAgain, success: true };
+	return { playAgain, success: true, states, focusedPits };
 }
 
 /**

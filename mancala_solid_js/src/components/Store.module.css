@@ -12,4 +12,11 @@
   background-color: var(--store-bg);
   color: var(--stone-color);
   box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.focused {
+  border-color: #f1c40f;
+  box-shadow: inset 0 0 20px rgba(241, 196, 15, 0.8), 0 0 20px rgba(241, 196, 15, 0.8);
+  transform: scale(1.05);
 }
