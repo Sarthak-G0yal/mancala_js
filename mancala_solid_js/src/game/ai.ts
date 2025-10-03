@@ -32,11 +32,10 @@ export function minimaxAB(
 	for (let pit = 1; pit <= NUM_PITS; pit++) {
 		if (!canPlayTurn(gameState, current, pit)) continue;
 
-		// Copy game state for simulation
-		const newState = [...gameState];
-
-		const { playAgain, success } = playTurn(newState, current, pit);
+		const { playAgain, success, states } = playTurn(gameState, current, pit);
 		if (!success) continue;
+
+        const newState = states[states.length - 1];
 
 		const next = playAgain
 			? current
