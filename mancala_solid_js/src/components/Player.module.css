@@ -1,0 +1,17 @@
+
+.player {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 22px;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  color: var(--text-color);
+}
+
+.current {
+  background-color: var(--button-bg);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--highlight-shadow);
+}

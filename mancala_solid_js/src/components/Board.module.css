@@ -1,0 +1,19 @@
+
+.board {
+  display: flex;
+  align-items: center;
+  background-color: var(--board-bg);
+  border: 10px solid var(--pit-border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pitsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.pits {
+  display: flex;
+}
