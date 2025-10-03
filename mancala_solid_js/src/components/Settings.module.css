@@ -1,0 +1,27 @@
+.settings {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: var(--board-bg);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.settings h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.settings label {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.settings input {
+  width: 60px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--pit-border);
+  background-color: var(--pit-bg);
+  color: var(--text-color);
+  font-size: 16px;
+}

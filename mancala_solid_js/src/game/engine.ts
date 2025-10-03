@@ -5,6 +5,7 @@ import {
 	SLOTS,
 	STORE_1_POS,
 	STORE_2_POS,
+    setNumberOfStones as setStones,
 } from "./types";
 
 import { Player, Prizes } from "./types";
@@ -13,7 +14,10 @@ import { Player, Prizes } from "./types";
  * Initializes the game state with stones in each pit,
  * and empty stores for both players.
  */
-export function prepareGame(): number[] {
+export function prepareGame(numberOfStones?: number): number[] {
+    if (numberOfStones) {
+        setStones(numberOfStones);
+    }
 	const gameState = Array(SLOTS).fill(NUMBER_OF_STONES);
 	gameState[STORE_1_POS] = 0;
 	gameState[STORE_2_POS] = 0;

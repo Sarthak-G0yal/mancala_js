@@ -1,0 +1,33 @@
+
+.gamemode {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.gamemode h2 {
+  margin-top: 0;
+}
+
+.gamemode button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid var(--pit-border);
+  border-radius: 5px;
+  background-color: var(--pit-bg);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.gamemode button:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-2px);
+}
+
+.gamemode button.active {
+  background-color: var(--active-button-bg);
+  color: var(--active-button-color);
+  border-color: var(--active-button-bg);
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
