@@ -1,3 +1,4 @@
+
 import { createSignal } from 'solid-js';
 import {
   prepareGame,
@@ -11,6 +12,7 @@ import Board from './Board';
 import PlayerComponent from './Player';
 import Settings from './Settings';
 import GameMode, { GameModeEnum } from './GameMode';
+import WinnerPopup from './WinnerPopup';
 import styles from './Game.module.css';
 
 const Game = () => {
@@ -117,14 +119,11 @@ const Game = () => {
         currentPlayer={currentPlayer()}
       />
       {winner() !== null && (
-        <div class={styles.winner}>
-          {winner() === Prizes.DRAW && 'It\'s a draw!'}
-          {winner() === Prizes.PLAYER_1_WIN && 'Player 1 wins!'}
-          {winner() === Prizes.PLAYER_2_WIN && 'Player 2 wins!'}
-          <button class={styles.button} onClick={() => restartGame(numberOfStones())}>
-            Play Again
-          </button>
-        </div>
+        <WinnerPopup 
+          winner={winner()} 
+          onRestart={() => restartGame(numberOfStones())} 
+          gameMode={gameMode()} 
+        />
       )}
     </div>
   );
