@@ -30,30 +30,36 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      
+
       - name: Set up Node
         uses: actions/setup-node@v5
         with:
           node-version: 22.20.0
-          cache: 'npm'
-      
+          cache: 'pnpm'
+          cache-dependency-path: './mancala_solid_js/pnpm-lock.yaml'
+
+      - name: Setup pnpm
+        uses: pnpm/actions-setup@v4
+        with:
+          version: 10.18.0
+
       - name: Install dependencies
         working-directory: './mancala_solid_js'
-        run: npm ci
-      
+        run: pnpm install --frozen-lockfile
+
       - name: Build
         working-directory: './mancala_solid_js'
-        run: npm run build
-      
+        run: pnpm run build
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           # Upload dist folder
           path: './mancala_solid_js/dist'
-      
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
