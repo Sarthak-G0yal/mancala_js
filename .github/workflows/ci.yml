@@ -39,7 +39,7 @@ jobs:
           cache-dependency-path: './mancala_solid_js/pnpm-lock.yaml'
 
       - name: Setup pnpm
-        uses: pnpm/actions-setup@v4
+        uses: pnpm/action-setup@v4
         with:
           version: 10.18.0
 
