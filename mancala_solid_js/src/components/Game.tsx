@@ -29,12 +29,12 @@ const Game = () => {
 
   const handleSettingsChange = (stones: number) => {
     setNumberOfStones(stones);
-    restartGame(stones);
+    restartGame();
   };
 
   const startGame = (mode: GameModeEnum) => {
     setGameMode(mode);
-    restartGame(numberOfStones());
+    restartGame();
     if (mode === GameModeEnum.AVA) {
       setTimeout(() => handleAITurn(Player.PLAYER_1), 500);
     }
@@ -154,10 +154,15 @@ const Game = () => {
     }
   };
 
-  const restartGame = (stones: number) => {
-    setGameState(prepareGame(stones));
+  const restartGame = () => {
+    setGameState(prepareGame(numberOfStones()));
     setCurrentPlayer(Player.PLAYER_1);
     setWinner(null);
+  };
+
+  const onRestart = () => {
+    setGameMode(null);
+    restartGame();
   };
 
   return (
@@ -177,7 +182,10 @@ const Game = () => {
             <StonesToMove stones={stonesToMove()} />
           </Show>
           <h1>Mancala</h1>
-          <Settings onSettingsChange={handleSettingsChange} />
+          <Settings
+            stones={numberOfStones()}
+            onSettingsChange={handleSettingsChange}
+          />
           <div class={styles.players}>
             <PlayerComponent
               player={Player.PLAYER_1}
@@ -199,7 +207,7 @@ const Game = () => {
           {winner() !== null && (
             <WinnerPopup
               winner={winner()}
-              onRestart={() => restartGame(numberOfStones())}
+              onRestart={onRestart}
               gameMode={gameMode()!}
             />
           )}

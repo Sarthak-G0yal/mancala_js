@@ -18,6 +18,19 @@ const GameStartPopup = (props: GameStartPopupProps) => {
     <div class={styles.popupOverlay}>
       <div class={styles.popup}>
         <h1>Welcome to Mancala!</h1>
+        <div class={styles.rules}>
+          <h2>How to Play:</h2>
+          <ul>
+            <li>Each player has six pits and one store.</li>
+            <li>Each pit starts with four stones.</li>
+            <li>On your turn, pick up all stones from one of your pits and drop them counter-clockwise, one per pit.</li>
+            <li>Place stones in your store but skip your opponent’s store.</li>
+            <li>If your last stone lands in your store, you get another turn.</li>
+            <li>If your last stone lands in an empty pit on your side, capture that stone and all stones opposite.</li>
+            <li>The game ends when one player’s pits are empty; the other player takes all remaining stones.</li>
+            <li>The player with the most stones in their store wins.</li>
+          </ul>
+        </div>
         <h2>Choose your game mode:</h2>
         <div class={styles.buttons}>
           <button onClick={() => props.onStartGame(GameModeEnum.PVP)}>
