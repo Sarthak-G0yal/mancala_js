@@ -15,6 +15,7 @@ import { GameModeEnum } from './GameStartPopup';
 import WinnerPopup from './WinnerPopup';
 import GameStartPopup from './GameStartPopup';
 import StonesToMove from './StonesToMove';
+import Log from './Log';
 import styles from './Game.module.css';
 
 const Game = () => {
@@ -26,18 +27,30 @@ const Game = () => {
   const [focusedPit, setFocusedPit] = createSignal<number | null>(null);
   const [isAnimating, setIsAnimating] = createSignal(false);
   const [stonesToMove, setStonesToMove] = createSignal(0);
+  const [moves, setMoves] = createSignal<string[]>([]);
+  const [isAiVsAiRunning, setIsAiVsAiRunning] = createSignal(false);
+
+  const addMoveToLog = (move: string) => {
+    setMoves((prevMoves) => [...prevMoves, move]);
+  };
 
   const handleSettingsChange = (stones: number) => {
     setNumberOfStones(stones);
-    restartGame(stones);
+    restartGame();
   };
 
   const startGame = (mode: GameModeEnum) => {
     setGameMode(mode);
-    restartGame(numberOfStones());
-    if (mode === GameModeEnum.AVA) {
-      setTimeout(() => handleAITurn(Player.PLAYER_1), 500);
-    }
+    restartGame();
+  };
+
+  const startAiVsAi = () => {
+    setIsAiVsAiRunning(true);
+    handleAITurn(currentPlayer());
+  };
+
+  const stopAiVsAi = () => {
+    setIsAiVsAiRunning(false);
   };
 
   const animateTurn = (
@@ -81,6 +94,9 @@ const Game = () => {
       return;
     }
 
+    const stones = gameState()[player + pitIndex];
+    addMoveToLog(`Player ${player === Player.PLAYER_1 ? 1 : 2} chose pit ${pitIndex + 1} with ${stones} stones`);
+
     const initialStones = gameState()[player + pitIndex];
     const { playAgain, success, states, focusedPits } = playTurn(
       gameState(),
@@ -116,6 +132,8 @@ const Game = () => {
   };
 
   const handleAITurn = (player: Player) => {
+    if (gameMode() === GameModeEnum.AVA && !isAiVsAiRunning()) return;
+
     const { bestPit } = minimaxAB(
       gameState(),
       player,
@@ -125,6 +143,9 @@ const Game = () => {
       -Infinity,
       Infinity
     );
+
+    const stones = gameState()[player + bestPit - 1];
+    addMoveToLog(`AI (${player === Player.PLAYER_1 ? 1 : 2}) chose pit ${bestPit} with ${stones} stones`);
 
     const initialStones = gameState()[player + bestPit - 1];
     const { playAgain, success, states, focusedPits } = playTurn(
@@ -154,10 +175,17 @@ const Game = () => {
     }
   };
 
-  const restartGame = (stones: number) => {
-    setGameState(prepareGame(stones));
+  const restartGame = () => {
+    setGameState(prepareGame(numberOfStones()));
     setCurrentPlayer(Player.PLAYER_1);
     setWinner(null);
+    setMoves([]);
+    setIsAiVsAiRunning(false);
+  };
+
+  const onRestart = () => {
+    setGameMode(null);
+    restartGame();
   };
 
   return (
@@ -177,7 +205,10 @@ const Game = () => {
             <StonesToMove stones={stonesToMove()} />
           </Show>
           <h1>Mancala</h1>
-          <Settings onSettingsChange={handleSettingsChange} />
+          <Settings
+            stones={numberOfStones()}
+            onSettingsChange={handleSettingsChange}
+          />
           <div class={styles.players}>
             <PlayerComponent
               player={Player.PLAYER_1}
@@ -190,16 +221,25 @@ const Game = () => {
               gameMode={gameMode()!}
             />
           </div>
-          <Board
-            gameState={gameState()}
-            onPitClick={handlePitClick}
-            currentPlayer={currentPlayer()}
-            focusedPit={focusedPit()}
-          />
+          <Show when={gameMode() === GameModeEnum.AVA}>
+            <div class={styles.aiControls}>
+              <button onClick={startAiVsAi} disabled={isAiVsAiRunning()}>Start</button>
+              <button onClick={stopAiVsAi} disabled={!isAiVsAiRunning()}>Stop</button>
+            </div>
+          </Show>
+          <div class={styles.mainContent}>
+            <Board
+              gameState={gameState()}
+              onPitClick={handlePitClick}
+              currentPlayer={currentPlayer()}
+              focusedPit={focusedPit()}
+            />
+            <Log moves={moves()} />
+          </div>
           {winner() !== null && (
             <WinnerPopup
               winner={winner()}
-              onRestart={() => restartGame(numberOfStones())}
+              onRestart={onRestart}
               gameMode={gameMode()!}
             />
           )}

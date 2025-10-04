@@ -4,12 +4,14 @@ interface PitProps {
   stones: number;
   onClick: () => void;
   isFocused: boolean;
+  pitIndex: number;
 }
 
 const Pit = (props: PitProps) => {
   return (
     <div class={`${styles.pit} ${props.isFocused ? styles.focused : ''}`} onClick={props.onClick}>
-      {props.stones}
+      <div class={styles.stones}>{props.stones}</div>
+      <div class={styles.pitIndex}>{props.pitIndex}</div>
     </div>
   );
 };

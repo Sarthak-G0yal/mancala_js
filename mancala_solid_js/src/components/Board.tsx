@@ -26,16 +26,15 @@ const Board = (props: BoardProps) => {
       <Store stones={props.gameState[STORE_2_POS]} isFocused={props.focusedPit === STORE_2_POS} />
       <div class={styles.pitsContainer}>
         <div class={styles.pits}>
-          <For each={player2Pits().reverse()}>{
-            (stones, index) => {
+          <For each={player2Pits().reverse()}>{            (stones, index) => {
               const pitIndex = STORE_2_POS - 1 - index();
-              return <Pit stones={stones} onClick={() => handlePitClick(Player.PLAYER_2, NUM_PITS - 1 - index())} isFocused={props.focusedPit === pitIndex} />
+              return <Pit stones={stones} onClick={() => handlePitClick(Player.PLAYER_2, NUM_PITS - 1 - index())} isFocused={props.focusedPit === pitIndex} pitIndex={NUM_PITS - index()} />
             }
           }</For>
         </div>
         <div class={styles.pits}>
           <For each={player1Pits()}>{ (stones, index) => (
-            <Pit stones={stones} onClick={() => handlePitClick(Player.PLAYER_1, index())} isFocused={props.focusedPit === index()} />
+            <Pit stones={stones} onClick={() => handlePitClick(Player.PLAYER_1, index())} isFocused={props.focusedPit === index()} pitIndex={index() + 1} />
           )}</For>
         </div>
       </div>

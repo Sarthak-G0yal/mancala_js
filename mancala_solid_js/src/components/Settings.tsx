@@ -1,17 +1,14 @@
 
-import { createSignal } from 'solid-js';
 import styles from './Settings.module.css';
 
 interface SettingsProps {
+  stones: number;
   onSettingsChange: (stones: number) => void;
 }
 
 const Settings = (props: SettingsProps) => {
-  const [stones, setStones] = createSignal(4);
-
   const handleStonesChange = (e: Event) => {
     const newStones = parseInt((e.target as HTMLInputElement).value);
-    setStones(newStones);
     props.onSettingsChange(newStones);
   };
 
@@ -25,7 +22,7 @@ const Settings = (props: SettingsProps) => {
         name="stones" 
         min="1" 
         max="10" 
-        value={stones()} 
+        value={props.stones} 
         onInput={handleStonesChange} 
       />
     </div>

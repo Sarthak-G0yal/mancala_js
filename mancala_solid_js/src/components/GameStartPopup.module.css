@@ -32,6 +32,35 @@
   margin-bottom: 30px;
 }
 
+.rules {
+  text-align: left;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  border: 1px solid var(--text-color);
+  border-radius: 10px;
+  background-color: var(--board-bg);
+}
+
+.rules h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.rules ul {
+  list-style-position: inside;
+  padding-left: 20px;
+}
+
+.rules li {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
 .buttons button {
   margin: 0 15px;
   padding: 15px 30px;

@@ -7,6 +7,12 @@
   padding: 20px;
 }
 
+.mainContent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
 .player1Turn {
   --button-bg: var(--p1-color);
   --button-hover-bg: var(--p1-hover-color);
@@ -27,6 +33,31 @@
   width: 100%;
   max-width: 600px;
   margin-bottom: 20px;
+}
+
+.aiControls {
+  margin-bottom: 20px;
+}
+
+.aiControls button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--button-bg);
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.aiControls button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.aiControls button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .winner {
