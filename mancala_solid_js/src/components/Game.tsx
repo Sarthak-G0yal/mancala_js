@@ -28,6 +28,7 @@ const Game = () => {
   const [isAnimating, setIsAnimating] = createSignal(false);
   const [stonesToMove, setStonesToMove] = createSignal(0);
   const [moves, setMoves] = createSignal<string[]>([]);
+  const [isAiVsAiRunning, setIsAiVsAiRunning] = createSignal(false);
 
   const addMoveToLog = (move: string) => {
     setMoves((prevMoves) => [...prevMoves, move]);
@@ -41,9 +42,15 @@ const Game = () => {
   const startGame = (mode: GameModeEnum) => {
     setGameMode(mode);
     restartGame();
-    if (mode === GameModeEnum.AVA) {
-      setTimeout(() => handleAITurn(Player.PLAYER_1), 500);
-    }
+  };
+
+  const startAiVsAi = () => {
+    setIsAiVsAiRunning(true);
+    handleAITurn(currentPlayer());
+  };
+
+  const stopAiVsAi = () => {
+    setIsAiVsAiRunning(false);
   };
 
   const animateTurn = (
@@ -125,6 +132,8 @@ const Game = () => {
   };
 
   const handleAITurn = (player: Player) => {
+    if (gameMode() === GameModeEnum.AVA && !isAiVsAiRunning()) return;
+
     const { bestPit } = minimaxAB(
       gameState(),
       player,
@@ -171,6 +180,7 @@ const Game = () => {
     setCurrentPlayer(Player.PLAYER_1);
     setWinner(null);
     setMoves([]);
+    setIsAiVsAiRunning(false);
   };
 
   const onRestart = () => {
@@ -211,6 +221,12 @@ const Game = () => {
               gameMode={gameMode()!}
             />
           </div>
+          <Show when={gameMode() === GameModeEnum.AVA}>
+            <div class={styles.aiControls}>
+              <button onClick={startAiVsAi} disabled={isAiVsAiRunning()}>Start</button>
+              <button onClick={stopAiVsAi} disabled={!isAiVsAiRunning()}>Stop</button>
+            </div>
+          </Show>
           <div class={styles.mainContent}>
             <Board
               gameState={gameState()}
