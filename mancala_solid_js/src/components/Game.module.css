@@ -7,6 +7,12 @@
   padding: 20px;
 }
 
+.mainContent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
 .player1Turn {
   --button-bg: var(--p1-color);
   --button-hover-bg: var(--p1-hover-color);

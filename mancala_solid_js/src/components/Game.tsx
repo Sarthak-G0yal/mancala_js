@@ -15,6 +15,7 @@ import { GameModeEnum } from './GameStartPopup';
 import WinnerPopup from './WinnerPopup';
 import GameStartPopup from './GameStartPopup';
 import StonesToMove from './StonesToMove';
+import Log from './Log';
 import styles from './Game.module.css';
 
 const Game = () => {
@@ -26,6 +27,11 @@ const Game = () => {
   const [focusedPit, setFocusedPit] = createSignal<number | null>(null);
   const [isAnimating, setIsAnimating] = createSignal(false);
   const [stonesToMove, setStonesToMove] = createSignal(0);
+  const [moves, setMoves] = createSignal<string[]>([]);
+
+  const addMoveToLog = (move: string) => {
+    setMoves((prevMoves) => [...prevMoves, move]);
+  };
 
   const handleSettingsChange = (stones: number) => {
     setNumberOfStones(stones);
@@ -81,6 +87,9 @@ const Game = () => {
       return;
     }
 
+    const stones = gameState()[player + pitIndex];
+    addMoveToLog(`Player ${player === Player.PLAYER_1 ? 1 : 2} chose pit ${pitIndex + 1} with ${stones} stones`);
+
     const initialStones = gameState()[player + pitIndex];
     const { playAgain, success, states, focusedPits } = playTurn(
       gameState(),
@@ -126,6 +135,9 @@ const Game = () => {
       Infinity
     );
 
+    const stones = gameState()[player + bestPit - 1];
+    addMoveToLog(`AI (${player === Player.PLAYER_1 ? 1 : 2}) chose pit ${bestPit} with ${stones} stones`);
+
     const initialStones = gameState()[player + bestPit - 1];
     const { playAgain, success, states, focusedPits } = playTurn(
       gameState(),
@@ -158,6 +170,7 @@ const Game = () => {
     setGameState(prepareGame(numberOfStones()));
     setCurrentPlayer(Player.PLAYER_1);
     setWinner(null);
+    setMoves([]);
   };
 
   const onRestart = () => {
@@ -198,12 +211,15 @@ const Game = () => {
               gameMode={gameMode()!}
             />
           </div>
-          <Board
-            gameState={gameState()}
-            onPitClick={handlePitClick}
-            currentPlayer={currentPlayer()}
-            focusedPit={focusedPit()}
-          />
+          <div class={styles.mainContent}>
+            <Board
+              gameState={gameState()}
+              onPitClick={handlePitClick}
+              currentPlayer={currentPlayer()}
+              focusedPit={focusedPit()}
+            />
+            <Log moves={moves()} />
+          </div>
           {winner() !== null && (
             <WinnerPopup
               winner={winner()}
