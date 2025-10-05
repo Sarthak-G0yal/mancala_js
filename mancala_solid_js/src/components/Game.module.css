@@ -1,4 +1,3 @@
-
 .game {
   display: flex;
   flex-direction: column;
@@ -81,4 +80,11 @@
 
 .button:hover {
   background-color: var(--button-hover-bg);
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    flex-direction: column;
+    align-items: center;
+  }
 }
