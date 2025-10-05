@@ -6,7 +6,7 @@ import {
   canContinueToPlay,
   finalizeGame,
 } from '../game/engine';
-import { Player, Prizes } from '../game/types';
+import { AI_DEPTH, Player, Prizes } from '../game/types';
 import { minimaxAB } from '../game/ai';
 import Board from './Board';
 import PlayerComponent from './Player';
@@ -137,7 +137,7 @@ const Game = () => {
     const { bestPit } = minimaxAB(
       gameState(),
       player,
-      10,
+      AI_DEPTH,
       true,
       player,
       -Infinity,

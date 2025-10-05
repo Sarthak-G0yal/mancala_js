@@ -1,11 +1,10 @@
-
 // Game constants
 export const NUM_PITS = 6;
 export let NUMBER_OF_STONES = 4;
 export const SLOTS = NUM_PITS * 2 + 2;
 export const STORE_1_POS = NUM_PITS;
 export const STORE_2_POS = SLOTS - 1;
-export const AI_DEPTH = 14;
+export const AI_DEPTH = 10;
 
 // Player identifiers
 export const Player = {
@@ -31,10 +30,10 @@ export interface MoveResult {
 }
 
 export interface TurnUpdate {
-    index: number;
-    stones: number;
+	index: number;
+	stones: number;
 }
 
 export function setNumberOfStones(stones: number) {
-    NUMBER_OF_STONES = stones;
+	NUMBER_OF_STONES = stones;
 }
