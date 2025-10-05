@@ -1,5 +1,5 @@
 
-import { createSignal, Show, onMount } from 'solid-js';
+import { createSignal, Show, createMemo } from 'solid-js';
 import {
   prepareGame,
   playTurn,
@@ -21,7 +21,8 @@ import styles from './Game.module.css';
 const Game = () => {
   const [numberOfStones, setNumberOfStones] = createSignal(4);
   const [gameState, setGameState] = createSignal(prepareGame(numberOfStones()));
-  const [currentPlayer, setCurrentPlayer] = createSignal(Player.PLAYER_1);
+  const [currentPlayer, setCurrentPlayer] = createSignal<Player>(Player.PLAYER_1);
+  const isPlayer1Turn = createMemo(() => currentPlayer() === Player.PLAYER_1);
   const [winner, setWinner] = createSignal<Prizes | null>(null);
   const [gameMode, setGameMode] = createSignal<GameModeEnum | null>(null);
   const [focusedPit, setFocusedPit] = createSignal<number | null>(null);
@@ -196,7 +197,7 @@ const Game = () => {
       <Show when={gameMode() !== null}>
         <div
           class={`${styles.game} ${
-            currentPlayer() === Player.PLAYER_1
+            isPlayer1Turn()
               ? styles.player1Turn
               : styles.player2Turn
           }`}
@@ -212,12 +213,12 @@ const Game = () => {
           <div class={styles.players}>
             <PlayerComponent
               player={Player.PLAYER_1}
-              isCurrent={currentPlayer() === Player.PLAYER_1}
+              isCurrent={isPlayer1Turn()}
               gameMode={gameMode()!}
             />
             <PlayerComponent
               player={Player.PLAYER_2}
-              isCurrent={currentPlayer() === Player.PLAYER_2}
+              isCurrent={!isPlayer1Turn()}
               gameMode={gameMode()!}
             />
           </div>

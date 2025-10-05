@@ -1,3 +1,4 @@
+
 import { Player as PlayerEnum } from '../game/types';
 import { GameModeEnum } from './GameStartPopup';
 import styles from './Player.module.css';
@@ -12,6 +13,9 @@ const Player = (props: PlayerProps) => {
   const playerName = () => {
     if (props.gameMode === GameModeEnum.AVA) {
       return props.player === PlayerEnum.PLAYER_1 ? 'AI 1' : 'AI 2';
+    }
+    if (props.gameMode === GameModeEnum.PVA && props.player === PlayerEnum.PLAYER_2) {
+      return 'AI';
     }
     return props.player === PlayerEnum.PLAYER_1 ? 'Player 1' : 'Player 2';
   };
