@@ -1,11 +1,12 @@
 
-import { Prizes, Player } from '../game/types';
+import { Prizes } from '../game/types';
+import { GameModeEnum } from './GameStartPopup';
 import styles from './WinnerPopup.module.css';
 
 interface WinnerPopupProps {
   winner: Prizes | null;
   onRestart: () => void;
-  gameMode: string;
+  gameMode: GameModeEnum;
 }
 
 const WinnerPopup = (props: WinnerPopupProps) => {
@@ -13,7 +14,7 @@ const WinnerPopup = (props: WinnerPopupProps) => {
     if (props.winner === Prizes.PLAYER_1_WIN) {
       return 'Player 1';
     } else if (props.winner === Prizes.PLAYER_2_WIN) {
-      return props.gameMode === 'Player vs. AI' ? 'AI' : 'Player 2';
+      return props.gameMode === GameModeEnum.PVA ? 'AI' : 'Player 2';
     } else {
       return 'No one';
     }

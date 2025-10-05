@@ -1,4 +1,5 @@
 
+import { For } from 'solid-js';
 import styles from './Log.module.css';
 
 interface LogProps {
@@ -10,9 +11,9 @@ const Log = (props: LogProps) => {
     <div class={styles.logContainer}>
       <h2>Move Log</h2>
       <ul class={styles.logList}>
-        {props.moves.map((move, index) => (
-          <li key={index}>{move}</li>
-        ))}
+        <For each={props.moves}>{(move) => 
+          <li>{move}</li>
+        }</For>
       </ul>
     </div>
   );

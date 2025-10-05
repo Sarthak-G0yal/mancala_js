@@ -1,4 +1,4 @@
-import { For } from 'solid-js';
+import { For, createMemo } from 'solid-js';
 import { NUM_PITS, Player, STORE_1_POS, STORE_2_POS } from '../game/types';
 import Pit from './Pit';
 import Store from './Store';
@@ -12,8 +12,8 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
-  const player1Pits = () => props.gameState.slice(0, NUM_PITS);
-  const player2Pits = () => props.gameState.slice(NUM_PITS + 1, STORE_2_POS);
+  const player1Pits = createMemo(() => props.gameState.slice(0, NUM_PITS));
+  const player2Pits = createMemo(() => props.gameState.slice(NUM_PITS + 1, STORE_2_POS));
 
   const handlePitClick = (player: Player, pitIndex: number) => {
     if (player === props.currentPlayer) {
